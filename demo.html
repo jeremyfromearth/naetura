@@ -15,7 +15,8 @@
             sketch.camera.position.z = 5;
             sketch.render();
             sketch.setRenderCallback(function() {
-                theta += 0.1
+                theta += 0.05;
+                cube.rotation.z = theta;
                 cube.position.z -= Math.sin(theta);
             });
             document.body.appendChild(sketch.renderer.domElement);
