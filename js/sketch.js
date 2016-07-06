@@ -2,7 +2,7 @@ var Sketch = function(width, height) {
     var renderCallback = null;
     var scene = new THREE.Scene();
     var aspect = width / height;
-    var camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+    var camera = new THREE.PerspectiveCamera(75, aspect, 1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(width, height);
 
