@@ -35,7 +35,6 @@
             geom.computeFaceNormals();
 
             var materials = [
-                new THREE.MeshLambertMaterial({opacity: 1.0, color: 0x44ff44, transparent: true}),
                 new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true})
             ];
 
@@ -45,8 +44,6 @@
             sketch.render();
             sketch.setRenderCallback(function() {
                 theta += 0.025;
-                //cube.rotation.y = theta;
-                //cube.position.z -= Math.sin(theta);
                 mesh.rotation.y = -theta;
                 mesh.rotation.x = theta;
             });
