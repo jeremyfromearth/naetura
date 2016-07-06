@@ -5,7 +5,7 @@
     </head>
     <body>
         <script src='js/three.min.js'></script>
-        <script src='js/orbit.js'></script>
+        <script src='js/trackball.js'></script>
         <script src='js/sketch.js'></script>
 
         <script>
@@ -42,10 +42,11 @@
 
             var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, materials);
             var sketch = Sketch(960, 540);
+            sketch.camera.position.z = 10;
+            sketch.setFullWindow(true);
             sketch.scene.add(mesh); 
-            sketch.camera.position.z = 5;
-            sketch.controls.enabled = true;
             sketch.render();
+
             sketch.setRenderCallback(function() {
                 theta += 0.025;
                 mesh.rotation.y = -theta;
