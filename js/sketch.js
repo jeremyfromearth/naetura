@@ -1,4 +1,4 @@
-var Sketch = function(width, height) {
+var ThreeSketch = function(width, height) {
     var renderCallback = function(){};
     var scene = new THREE.Scene();
     var aspect = width / height;
@@ -49,4 +49,8 @@ var Sketch = function(width, height) {
         }, 
         setFullWindow : setFullWindow
     }
+}
+
+function CanvasSketch(width, height) {
+
 }

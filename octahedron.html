@@ -41,7 +41,7 @@
             ];
 
             var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, materials);
-            var sketch = Sketch(960, 540);
+            var sketch = ThreeSketch(960, 540);
             sketch.camera.position.z = 10;
             sketch.setFullWindow(true);
             sketch.scene.add(mesh); 
