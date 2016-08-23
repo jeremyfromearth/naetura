@@ -1,36 +1,54 @@
 <html>
-<body>
-<canvas id="canvas" width="600" height="500"></canvas>
-<script type="text/javascript">
-var elem = document.getElementById('canvas');
-var context = elem.getContext('2d');
-var depth = 9;
- 
-function drawLine(x1, y1, x2, y2, brightness) {
-    context.moveTo(x1, y1);
-    context.lineTo(x2, y2);
-}
- 
-function drawTree(x1, y1, angle, depth) {
-    if (depth > 0){
-        var x2 = x1 + (Math.cos(angle) * depth * 10.0);
-        var y2 = y1 + (Math.sin(angle) * depth * 10.0);
-        drawLine(x1, y1, x2, y2, depth);
+    <head>
+        <title>Fractal Tree</title>
+        <link rel='stylesheet' href='css/reset.css'>
+    </head>
+    <body>
+        <script src='js/sketch.js'></script>
+        <script type="text/javascript">
+            var x = window.innerWidth * 0.5;
+            var y = window.innerHeight;
+            var depth = 8;
+            var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
+            var ctx = sketch.canvas.getContext('2d');
 
-        if(Math.random() > 0.05) {
-            drawTree(x2, y2, angle - Math.PI * 0.1, depth - 1);
-        }
+            function drawLine(x1, y1, x2, y2, brightness) {
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+            }
+             
+            function drawTree(x1, y1, angle, depth) {
+                if (depth > 0){
+                    var x2 = x1 + (Math.cos(angle) * depth * 10.0);
+                    var y2 = y1 + (Math.sin(angle) * depth * 10.0);
+                    drawLine(x1, y1, x2, y2, depth);
 
-        if(Math.random() > 0.05) {
-            drawTree(x2, y2, angle + Math.PI * 0.1, depth - 1);
-        }
-    }
-}
- 
-context.beginPath();
-drawTree(300, 500, -Math.PI * 0.5, depth);
-context.closePath();
-context.stroke();
-</script>
-</body>
+                    //if(Math.random() > 0.05) {
+                        drawTree(x2, y2, angle - Math.PI * 0.15, depth - 1);
+                    //}
+
+                    //if(Math.random() > 0.05) {
+                        drawTree(x2, y2, angle + Math.PI * 0.15, depth - 1);
+                    //}
+                }
+            }
+             
+            function draw() {
+                ctx.beginPath();
+                drawTree(x, y, -Math.PI * 0.5, depth);
+                ctx.closePath();
+                ctx.stroke();
+            }
+            
+            sketch.setRenderCallback(draw);
+            sketch.setFullWindow(true);
+            sketch.render();
+
+            document.body.appendChild(sketch.canvas);
+            window.addEventListener('resize', function(event) {
+                    x = window.innerWidth * 0.5;
+                    y = window.innerHeight;
+            });
+        </script>
+    </body>
 </html>

@@ -44,13 +44,49 @@ var ThreeSketch = function(width, height) {
         renderer : renderer,
         render : render,
         controls : controls,
+        setFullWindow : setFullWindow,
         setRenderCallback : function(callback) {
-            renderCallback = callback;
-        }, 
-        setFullWindow : setFullWindow
+            renderCallback = callback || renderCallback;
+        }
     }
 }
 
 function CanvasSketch(width, height) {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    var renderCallback = function(){};
+    canvas.width = width;
+    canvas.height = height; 
 
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        renderCallback();
+        requestAnimationFrame(render);
+    }
+
+    function setFullWindow(isFull) {
+        if(isFull) {
+            window.addEventListener( 'resize', onWindowResize, false );
+            onWindowResize();
+        } else {
+            window.removeEventListener( 'resize', onWindowResize, false );
+        }
+    }
+
+    function onWindowResize(event) {
+        console.log(event);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    return {
+        canvas : canvas,
+        ctx : ctx, 
+        render : render,
+        setFullWindow : setFullWindow,
+        setRenderCallback : function(callback) {
+            renderCallback = callback || renderCallback;
+        }
+    }
 }
+
