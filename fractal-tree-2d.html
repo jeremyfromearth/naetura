@@ -6,44 +6,81 @@
     <body>
         <script src='js/sketch.js'></script>
         <script type="text/javascript">
+            var depth = 10;
             var x = window.innerWidth * 0.5;
             var y = window.innerHeight;
-            var depth = 8;
             var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
             var ctx = sketch.canvas.getContext('2d');
 
-            function drawLine(x1, y1, x2, y2, brightness) {
+            // Draws a single line
+            function drawLine(x1, y1, x2, y2) {
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
             }
-             
-            function drawTree(x1, y1, angle, depth) {
+
+            // Draws the tree recursively (not using a data structure)
+            function drawTreeRecursive(x1, y1, angle, depth) {
                 if (depth > 0){
-                    var x2 = x1 + (Math.cos(angle) * depth * 10.0);
-                    var y2 = y1 + (Math.sin(angle) * depth * 10.0);
+                    var x2 = x1 + (Math.cos(angle) * depth * 15.0);
+                    var y2 = y1 + (Math.sin(angle) * depth * 15.0);
                     drawLine(x1, y1, x2, y2, depth);
-
-                    //if(Math.random() > 0.05) {
-                        drawTree(x2, y2, angle - Math.PI * 0.15, depth - 1);
-                    //}
-
-                    //if(Math.random() > 0.05) {
-                        drawTree(x2, y2, angle + Math.PI * 0.15, depth - 1);
-                    //}
+                    drawTreeRecursive(x2, y2, angle - Math.PI * 0.2, depth - 1);
+                    drawTreeRecursive(x2, y2, angle + Math.PI * 0.2, depth - 1);
                 }
             }
-             
-            function draw() {
-                ctx.beginPath();
-                drawTree(x, y, -Math.PI * 0.5, depth);
-                ctx.closePath();
-                ctx.stroke();
+
+            // Create a binary tree representing the tree
+            function createTree(_x1, _y1, _angle, _depth) {
+                if(_depth > 0) {
+                    var x1 = _x1;
+                    var y1 = _y1;
+                    var angle = _angle;
+                    var depth = _depth;
+                    var x2 = x1 + (Math.cos(angle) * depth * 10.0);
+                    var y2 = y1 + (Math.sin(angle) * depth * 10.0)
+                    var child1 = Math.random() > 0.2 ?
+                        createTree(x2, y2, angle + Math.PI * 0.1, depth-1) : null;
+                    var child2 = Math.random() > 0.2 ? 
+                        createTree(x2, y2, angle - Math.PI * 0.1, depth-1) : null;
+                    return  {
+                        x1 : x1,
+                        y1 : y1,
+                        x2 : x2,
+                        y2 : y2,
+                        depth : depth,
+                        angle : angle,
+                        child1: child1,
+                        child2: child2
+                    }
+                }
+            }
+
+            // Recursive function that draws the data structure
+            function drawTreeFromData() {
+                function drawNode(node) {
+                    if(node) {
+                        drawLine(node.x1, node.y1, node.x2, node.y2);
+                        drawNode(node.child1);
+                        drawNode(node.child2);
+                    }
+                }
+                drawNode(tree);
             }
             
+            // Called every frame
+            function draw() {
+                ctx.beginPath();
+                ctx.closePath();
+                drawTreeFromData();
+                ctx.stroke();
+            }
+
+            // Setup
+            var tree = createTree(x, y, -Math.PI * 0.5, depth);
             sketch.setRenderCallback(draw);
             sketch.setFullWindow(true);
             sketch.render();
-
+            
             document.body.appendChild(sketch.canvas);
             window.addEventListener('resize', function(event) {
                     x = window.innerWidth * 0.5;

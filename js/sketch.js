@@ -74,7 +74,6 @@ function CanvasSketch(width, height) {
     }
 
     function onWindowResize(event) {
-        console.log(event);
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
