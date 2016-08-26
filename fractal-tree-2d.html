@@ -4,7 +4,8 @@
         <link rel='stylesheet' href='css/reset.css'>
     </head>
     <body>
-        <script src='js/sketch.js'></script>
+        <script src='./js/sketch.js'></script>
+        <script src='./js/uibot.js'></script>
         <script type="text/javascript">
             var depth = 10;
             var x = window.innerWidth * 0.5;
@@ -38,10 +39,10 @@
                     var depth = _depth;
                     var x2 = x1 + (Math.cos(angle) * depth * 10.0);
                     var y2 = y1 + (Math.sin(angle) * depth * 10.0)
-                    var child1 = Math.random() > 0.2 ?
+                    var child1 = Math.random() > 0.0 ?
                         createTree(x2, y2, angle + Math.PI * 0.1, depth-1) : null;
                     var child2 = Math.random() > 0.2 ? 
-                        createTree(x2, y2, angle - Math.PI * 0.1, depth-1) : null;
+                        createTree(x2, y2, angle - Math.PI * 0.3, depth-1) : null;
                     return  {
                         x1 : x1,
                         y1 : y1,
