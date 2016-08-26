@@ -1,0 +1,29 @@
+.uibot {
+    width: 20em;
+    font-size: 1em;
+    font-family: monospace;
+    display: inline-block;
+}
+
+.uibot .container {
+    color: #fff;
+    padding: 0.7em;
+    margin: 0.1em;
+    float: left;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.uibot .label {
+    float: left;
+    margin-right: 0.4em;
+}
+
+.uibot .range-min, .range-max {
+    display: inline-block;
+    font-size: 1em;
+}
+
+.uibot .button {
+    width: 100%;
+}
+

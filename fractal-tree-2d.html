@@ -2,6 +2,7 @@
     <head>
         <title>Fractal Tree</title>
         <link rel='stylesheet' href='css/reset.css'>
+        <link rel='stylesheet' href='css/uibot.css'>
     </head>
     <body>
         <script src='./js/sketch.js'></script>
@@ -76,17 +77,35 @@
                 ctx.stroke();
             }
 
+            function createNewTree() {
+                tree = createTree(x, y, -Math.PI * 0.5, depth);
+            }
+
             // Setup
-            var tree = createTree(x, y, -Math.PI * 0.5, depth);
             sketch.setRenderCallback(draw);
             sketch.setFullWindow(true);
             sketch.render();
-            
+
+            var params = {
+                depth : {
+                    range : [2, 16],
+                    step : 1
+                },
+                createNewTree : {
+                    label : 'Create Tree'
+                }
+            }
+
+            var tree = null;
+            var uibot = UIBot();
             document.body.appendChild(sketch.canvas);
+            document.body.appendChild(uibot.build(window, params));
+            
             window.addEventListener('resize', function(event) {
                     x = window.innerWidth * 0.5;
                     y = window.innerHeight;
             });
+            createNewTree();
         </script>
     </body>
 </html>

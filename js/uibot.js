@@ -256,6 +256,7 @@ function UIBot() {
                     createUIElement(target, param, container);
                 }
             }
+            return container;
         },
         unind : unbind
     }
