@@ -13,6 +13,7 @@
             var rightAngleOffset = 0.03
             var leftProb = 0.7;
             var rightProb = 0.7;
+            var initialBranchLength = 15;
             var x = window.innerWidth * 0.5;
             var y = window.innerHeight;
             var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
@@ -27,8 +28,8 @@
             // Draws the tree recursively (not using a data structure)
             function drawTreeRecursive(x1, y1, angle, depth) {
                 if (depth > 0){
-                    var x2 = x1 + (Math.cos(angle) * depth * 15.0);
-                    var y2 = y1 + (Math.sin(angle) * depth * 15.0);
+                    var x2 = x1 + (Math.cos(angle) * depth * initialBranchLength);
+                    var y2 = y1 + (Math.sin(angle) * depth * initialBranchLength);
                     drawLine(x1, y1, x2, y2, depth);
                     drawTreeRecursive(x2, y2, angle - Math.PI * 0.2, depth - 1);
                     drawTreeRecursive(x2, y2, angle + Math.PI * 0.2, depth - 1);
@@ -42,8 +43,8 @@
                     var y1 = _y1;
                     var angle = _angle;
                     var depth = _depth;
-                    var x2 = x1 + (Math.cos(angle) * depth * 10.0);
-                    var y2 = y1 + (Math.sin(angle) * depth * 10.0)
+                    var x2 = x1 + (Math.cos(angle) * depth * initialBranchLength);
+                    var y2 = y1 + (Math.sin(angle) * depth * initialBranchLength)
                     var child1 = Math.random() > (1-rightProb) ?
                         createTree(x2, y2, angle + Math.PI * rightAngleOffset, depth-1) : null;
                     var child2 = Math.random() > (1-leftProb) ? 
@@ -94,6 +95,11 @@
                 depth : {
                     range : [2, 16],
                     step : 1
+                },
+                initialBranchLength : {
+                    'label' : 'Initial Branch Length',
+                    range : [3, 20]
+                    
                 },
                 leftAngleOffset : {
                     label : 'Sway Left',
