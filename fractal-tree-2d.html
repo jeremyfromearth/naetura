@@ -9,6 +9,10 @@
         <script src='./js/uibot.js'></script>
         <script type="text/javascript">
             var depth = 10;
+            var leftAngleOffset = 0.1;
+            var rightAngleOffset = 0.03
+            var leftProb = 0.3;
+            var rightProb = 0.3;
             var x = window.innerWidth * 0.5;
             var y = window.innerHeight;
             var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
@@ -40,10 +44,10 @@
                     var depth = _depth;
                     var x2 = x1 + (Math.cos(angle) * depth * 10.0);
                     var y2 = y1 + (Math.sin(angle) * depth * 10.0)
-                    var child1 = Math.random() > 0.0 ?
-                        createTree(x2, y2, angle + Math.PI * 0.1, depth-1) : null;
-                    var child2 = Math.random() > 0.2 ? 
-                        createTree(x2, y2, angle - Math.PI * 0.3, depth-1) : null;
+                    var child1 = Math.random() > (1-rightProb) ?
+                        createTree(x2, y2, angle + Math.PI * rightAngleOffset, depth-1) : null;
+                    var child2 = Math.random() > (1-leftProb) ? 
+                        createTree(x2, y2, angle - Math.PI * leftAngleOffset, depth-1) : null;
                     return  {
                         x1 : x1,
                         y1 : y1,
@@ -90,6 +94,24 @@
                 depth : {
                     range : [2, 16],
                     step : 1
+                },
+                leftAngleOffset : {
+                    label : 'Sway Left',
+                    range : [0.01, 0.3],
+                    step : 0.01
+                },
+                rightAngleOffset : {
+                    label : 'Sway Right',
+                    range : [0.01, 0.3],
+                    step : 0.01
+                },
+                leftProb : {
+                    label : 'Left Probability',
+                    range : [0.0, 1.0]     
+                },
+                rightProb : {
+                    label : 'Right Probability',
+                    range : [0.0, 1.0]     
                 },
                 createNewTree : {
                     label : 'Create Tree'
