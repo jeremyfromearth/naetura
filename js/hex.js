@@ -2,19 +2,18 @@ function Hex() {
     var FLAT = 'flat';
     var SHARP = 'sharp'
 
-    return {
-        FLAT : function() {
-            return FLAT;
-        },
+    var Orientation = {
+        SHARP : 'sharp',
+        FLAT  : 'flat'
+    }
 
-        SHARP : function() {
-            return SHARP;
-        },
+    return {
+        Orientation : Orientation, 
 
         Grid : function() {
             return {
                 cells : {},
-                orientation : 'sharp',
+                orientation : Orientation.SHARP,
 
                 add : function(layout) {
 
@@ -30,9 +29,10 @@ function Hex() {
             
                 set_orientation : function(value) {
                     switch(value) {
-                        case SHARP:
-                        case FLAT:
+                        case Orientation.SHARP:
+                        case Orientation.FLAT:
                             orientation = value;
+                            console.log('Setting orientation:', orientation);
                         default:
                             break;
                     }

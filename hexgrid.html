@@ -11,9 +11,10 @@
         <script type="text/javascript">
             var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
             var ctx = sketch.canvas.getContext('2d');
+
             var Hex = Hex();
             var grid = Hex.Grid();
-            grid.set_orientation(Hex.FLAT());
+            grid.set_orientation(Hex.Orientation.SHARP);
 
             // Called every frame
             function draw() {
