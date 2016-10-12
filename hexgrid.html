@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Hex Grid Demo</title>
+        <link rel='stylesheet' href='css/reset.css'>
+        <link rel='stylesheet' href='css/uibot.css'>
+    </head>
+    <body>
+        <script src='./js/sketch.js'></script>
+        <script src='./js/uibot.js'></script>
+        <script src='./js/hex.js'></script>
+        <script type="text/javascript">
+            var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
+            var ctx = sketch.canvas.getContext('2d');
+            var Hex = Hex();
+            var grid = Hex.Grid();
+            grid.set_orientation(Hex.FLAT());
+
+            // Called every frame
+            function draw() {
+                
+            }
+
+            // Setup
+            sketch.setRenderCallback(draw);
+            sketch.setFullWindow(true);
+            sketch.render();
+
+            var params = {
+                 
+            }
+
+            var uibot = UIBot();
+            document.body.appendChild(sketch.canvas);
+            document.body.appendChild(uibot.build(window, params));
+            
+            window.addEventListener('resize', function(event) {
+                x = window.innerWidth * 0.5;
+                y = window.innerHeight;
+            });
+        </script>
+    </body>
+</html>
