@@ -7,44 +7,91 @@ function Hex() {
         FLAT  : 'flat'
     }
 
-    return {
+    function Cell(q, r, s) {
+        if(q + r + s != 0) 
+            throw 'Error creating HexCell. q+r+s != 0. Invalid values: (' + q + ', ' + r + ', ' + s + ')';
 
-        Grid : function() {
-            return {
-                cells : {},
-                orientation : Orientation.SHARP,
+        var q = q || 0,
+            r = r || 0,
+            s = s || 0;
 
-                add : function(layout) {
+        return {
+            add : function(cell) {
+                return Cell(
+                    q + cell.get_q(),
+                    r + cell.get_r(),
+                    s + cell.get_s());
+            },
 
-                },
+            equals : function(cell) { 
+                return q == cell.get_q()
+                    && r == cell.get_r()
+                    && s == cell.get_s();
+            },
 
-                get_cells : function() {
-                    return cells;
-                },
+            get_q : function() { 
+                return q; 
+            }, 
 
-                set_cell_radius : function(value) {
+            get_r : function() { 
+                return r; 
+            }, 
 
-                },
-            
-                set_orientation : function(value) {
-                    switch(value) {
-                        case Orientation.SHARP:
-                        case Orientation.FLAT:
-                            orientation = value;
-                        default:
-                            break;
-                    }
+            get_s : function() { 
+                return s; 
+            }, 
+
+            scale : function(scalar) {
+                return Cell(
+                    q * scalar, 
+                    r * scalar, 
+                    s * scalar);
+            },
+
+            sub : function(cell) {
+                return Cell(
+                    q - cell.get_q(),
+                    r - cell.get_r(),
+                    s - cell.get_s());
+            }
+        }
+    }
+
+    function Grid() {
+        return {
+            cells : {},
+            orientation : Orientation.SHARP,
+
+            add : function(layout) {
+
+            },
+
+            get_cells : function() {
+                return cells;
+            },
+
+            set_cell_radius : function(value) {
+
+            },
+        
+            set_orientation : function(value) {
+                switch(value) {
+                    case Orientation.SHARP:
+                    case Orientation.FLAT:
+                        orientation = value;
+                    default:
+                        break;
                 }
             }
-        },
+        }
+    }
 
-        Point : function(x, y, z) {
-            return {
-                x : x || 0,
-                y : y || 0,
-                z : z || 0
-            }
-        },
+    return {
+        Cell : Cell,
+
+        Grid : Grid, 
+
+        
 
         Layout : function() {
             return {

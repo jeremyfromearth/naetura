@@ -15,7 +15,12 @@
 
             var Hex = Hex();
             var grid = Hex.Grid();
+
+            var c1 = Hex.Cell(0, 1, -1);
+            var c2 = Hex.Cell(1, 0, -1);
+
             grid.set_orientation(Hex.Orientation.SHARP);
+
 
             // Called every frame
             function draw() {
