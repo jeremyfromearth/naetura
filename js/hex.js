@@ -8,7 +8,6 @@ function Hex() {
     }
 
     return {
-        Orientation : Orientation, 
 
         Grid : function() {
             return {
@@ -32,7 +31,6 @@ function Hex() {
                         case Orientation.SHARP:
                         case Orientation.FLAT:
                             orientation = value;
-                            console.log('Setting orientation:', orientation);
                         default:
                             break;
                     }
@@ -40,13 +38,23 @@ function Hex() {
             }
         },
 
-        Renderer : function() {
+        Point : function(x, y, z) {
+            return {
+                x : x || 0,
+                y : y || 0,
+                z : z || 0
+            }
+        },
+
+        Layout : function() {
             return {
 
             }
         },
 
-        Layout : function() {
+        Orientation : Orientation, 
+
+        Renderer : function() {
             return {
 
             }

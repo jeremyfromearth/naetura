@@ -1,8 +1,9 @@
 function Vector(x, y, z) {
+    console.log(x, y, z);
     return {
-        x : x != null ? x : 0,
-        y : y != null ? y : 0,
-        z : z != null ? z : 0,
+        x : x || 0,
+        y : y || 0,
+        z : z || 0,
 
         add : function(v) {
             return Vector(this.x + v.x, this.y + v.y, this.z + v.z);
@@ -25,7 +26,7 @@ function Vector(x, y, z) {
         },
 
         length : function() {
-            return Math.sqrt(this.x * this.x + this.y * this.y + this.z + this.z);
+            return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
         },
 
         magnitude : function() {
