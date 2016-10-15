@@ -24,13 +24,11 @@ function Hex() {
             },
 
             distance : function(cell) {
-                return int(
+                return Math.floor((
                     Math.abs(q - cell.get_q()) + 
                     Math.abs(r - cell.get_r()) + 
-                    Math.abs(s - cell.get_s()) / 2);
+                    Math.abs(s - cell.get_s())) / 2);
             },
-
-
 
             equals : function(cell) { 
                 return q == cell.get_q()

@@ -15,12 +15,12 @@
 
             var Hex = Hex();
             var grid = Hex.Grid();
-
-            var c1 = Hex.Cell(0, 1, -1);
-            var c2 = Hex.Cell(1, 0, -1);
-
             grid.set_orientation(Hex.Orientation.SHARP);
 
+            var c1 = Hex.Cell(0, 0, 0);
+            var c2 = Hex.Cell(-2, -3, 5);
+
+            console.log(c1.distance(c2));
 
             // Called every frame
             function draw() {
