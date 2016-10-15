@@ -11,20 +11,25 @@
         <script src='./js/hex.js'></script>
         <script type="text/javascript">
             var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
-            var ctx = sketch.canvas.getContext('2d');
+            var ctx = sketch.ctx;
 
             var Hex = Hex();
             var grid = Hex.Grid();
-            grid.set_orientation(Hex.Orientation.SHARP);
+            var canvas = Hex.Canvas(ctx);
+
+            grid.cell_radius(40);
+            grid.orientation(Hex.Orientation.SHARP);
 
             var c1 = Hex.Cell(0, 0, 0);
             var c2 = Hex.Cell(-2, -3, 5);
 
-            console.log(c1.distance(c2));
-
             // Called every frame
             function draw() {
-                 
+                var cx = sketch.canvas.width * 0.5;
+                var cy = sketch.canvas.height * 0.5;
+                ctx.fillStyle = 'red';
+                ctx.strokeStyle = 'black';
+                canvas.draw_hexagon({x: cx, y: cy}, grid.cell_radius(), grid.orientation(), true, true);     
             }
 
             // Setup

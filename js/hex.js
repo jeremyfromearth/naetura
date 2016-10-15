@@ -65,50 +65,99 @@ function Hex() {
     }
 
     function Grid() {
+        var cell_radius = 10;
+        var orientation = Orientation.FLAT;
+
         return {
             cells : {},
-            orientation : Orientation.SHARP,
 
             add : function(layout) {
 
             },
 
-            get_cells : function() {
+            cells : function() {
                 return cells;
             },
 
-            set_cell_radius : function(value) {
-
-            },
-        
-            set_orientation : function(value) {
-                switch(value) {
+            orientation : function(value) {
+                if(value) {
+                    orientation = value;
+                    switch(value) {
                     case Orientation.SHARP:
                     case Orientation.FLAT:
                         orientation = value;
                     default:
                         break;
+                    }
                 }
+                return orientation;
+            },
+
+            cell_radius : function(value) {
+                if(value) {
+                    cell_radius = value;
+                }
+                return cell_radius;
+            },
+        }
+    }
+
+    function Canvas(ctx) {
+        var ctx = ctx;
+        var theta = 0;
+        var flat_vertices = [];
+        var sharp_vertices = [];
+        var increment = Math.PI / 3.0;
+        var sharp_offset = increment * 0.5;
+
+        for(var i = 0; i < 6; i++) {
+            flat_vertices.push({
+                x : Math.cos(theta),
+                y : Math.sin(theta)
+            });
+
+            sharp_vertices.push({
+                x : Math.cos(theta + sharp_offset),
+                y : Math.sin(theta + sharp_offset)
+            });
+
+            theta += increment;
+        }
+
+        return {
+            draw_hexagon : function(pixel_coords, radius, orientation, solid, stroke) {
+                if(!ctx) return; 
+
+                var vertices = orientation == 
+                    Orientation.FLAT ? flat_vertices : sharp_vertices;
+
+                ctx.beginPath();
+                ctx.moveTo(pixel_coords[0], pixel_coords[1]);
+
+                for(var i = 0; i < vertices.length; i++) {
+                    var vertex = vertices[i];
+                    var x = pixel_coords.x + vertex.x * radius;
+                    var y = pixel_coords.y + vertex.y * radius;
+                    if(i == 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+
+                ctx.closePath();
+                if(solid) ctx.fill();
+                if(stroke) ctx.stroke();
             }
         }
     }
 
     return {
+        Canvas : Canvas,
         Cell : Cell,
-
         Grid : Grid, 
-
-        
-
+        Orientation : Orientation,
         Layout : function() {
-            return {
-
-            }
-        },
-
-        Orientation : Orientation, 
-
-        Renderer : function() {
             return {
 
             }
