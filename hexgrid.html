@@ -21,7 +21,12 @@
             grid.orientation(Hex.Orientation.SHARP);
 
             var c1 = Hex.Cell(0, 0, 0);
-            var c2 = Hex.Cell(-2, -3, 5);
+            var c2 = Hex.Cell(0, 1, -1);
+            var p1 = grid.hex_to_pixel(c1);
+            var p2 = grid.hex_to_pixel(c2);
+
+            console.log(p1);
+            console.log(p2);
 
             // Called every frame
             function draw() {
@@ -29,7 +34,17 @@
                 var cy = sketch.canvas.height * 0.5;
                 ctx.fillStyle = 'red';
                 ctx.strokeStyle = 'black';
-                canvas.draw_hexagon({x: cx, y: cy}, grid.cell_radius(), grid.orientation(), true, true);     
+                
+                ctx.moveTo(cx, cy);
+                canvas.draw_hexagon(
+                    {x: cx + p1.x, y: cy + p1.y}, 
+                    grid.cell_radius(), 
+                    grid.orientation(), true, true);     
+
+                canvas.draw_hexagon(
+                    {x: cx + p2.x, y: cy + p2.y}, 
+                    grid.cell_radius(), 
+                    grid.orientation(), true, true);
             }
 
             // Setup
