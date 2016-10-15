@@ -116,9 +116,9 @@ function Hex() {
 
         return {
 
-            add : function(cells) {
-                for(var i = 0; i < cells.length; i++) {
-                    var cell = cells[i];
+            add : function(new_cells) {
+                for(var i = 0; i < new_cells.length; i++) {
+                    var cell = new_cells[i];
                     var q = cell.q();
                     var r = cell.r();
                     var s = cell.s();
