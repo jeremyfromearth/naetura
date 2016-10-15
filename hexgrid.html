@@ -24,9 +24,7 @@
             var c2 = Hex.Cell(0, 1, -1);
             var p1 = grid.hex_to_pixel(c1);
             var p2 = grid.hex_to_pixel(c2);
-
-            console.log(p1);
-            console.log(p2);
+            grid.add(Hex.Layout.Hexagonal(4));
 
             // Called every frame
             function draw() {

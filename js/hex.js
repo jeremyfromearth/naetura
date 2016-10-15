@@ -1,6 +1,5 @@
 function Hex() {
     
-
     function Canvas(ctx) {
         var ctx = ctx;
         var theta = 0;
@@ -109,18 +108,42 @@ function Hex() {
     }
 
     function Grid() {
+
+        var cells = [];
+        var lookup = {};
         var cell_radius = 10;
         var orientation = Orientation.FLAT;
 
         return {
-            cells : {},
 
-            add : function(layout) {
-
+            add : function(cells) {
+                for(var i = 0; i < cells.length; i++) {
+                    var cell = cells[i];
+                    var q = cell.q();
+                    var r = cell.r();
+                    var s = cell.s();
+                    if(!lookup[q]) lookup[q] = {};
+                    if(!lookup[q][r]) lookup[q][r] = {};
+                    if(!lookup[q][r][s]) {
+                        cells.push(cell);
+                        lookup[q][r][s] = cell;
+                    }
+                }
             },
 
             cells : function() {
                 return cells;
+            },
+
+            contains : function(cell) {
+                if(lookup[cell.q()]) {
+                    if(lookup[cell.r()]) {
+                        if(lookup[cell.s()]) {
+                            return true
+                        }
+                    }
+                }
+                return false;
             },
 
             orientation : function(value) {
@@ -167,6 +190,20 @@ function Hex() {
         }
     }
 
+    var Layout = {
+        Hexagonal : function(radius) {
+            var cells = [];	
+	    for (var q = -radius; q <= radius; q++) {
+		var r1 = Math.max(-radius, -q - radius);
+		var r2 = Math.min(radius, -q + radius);
+		for (var r = r1; r <= r2; r++) {
+		    cells.push(Cell(q, r, -q-r));
+		}
+	    }
+            return cells;
+        }
+    }
+
     var Orientation = {
         SHARP : 'sharp',
         FLAT  : 'flat'
@@ -177,10 +214,6 @@ function Hex() {
         Cell : Cell,
         Grid : Grid, 
         Orientation : Orientation,
-        Layout : function() {
-            return {
-
-            }
-        }
+        Layout : Layout
     }
 }
