@@ -114,6 +114,27 @@ function Hex() {
         var cell_radius = 10;
         var orientation = Orientation.FLAT;
 
+        function round_cell(q, r, s) {
+            var qr = Math.round(q);
+            var rr = Math.round(r);
+            var sr = Math.round(s);
+
+            var qd = Math.abs(q, qr);
+            var rd = Math.abs(r, rr);
+            var sd = Math.abs(s, sr);
+
+
+            if(qd > rd && qd > sd) {
+                qr = -rr - sr;
+            } else if(rd > sd) {
+                rr = -qr - sr;
+            } else {
+                sr = -qr - rr;
+            }
+
+            return Cell(qr, rr, sr);
+        }
+
         return {
 
             add : function(new_cells) {
@@ -167,7 +188,7 @@ function Hex() {
                 return cell_radius;
             },
 
-            hex_to_pixel : function(cell) {
+            hex_to_point : function(cell) {
                 var x = 0;
                 var y = 0;
                 switch(orientation) {
@@ -184,9 +205,13 @@ function Hex() {
                 return {x: x, y: y};
             }, 
 
-            pixel_to_hex : function(pixel) {
+            point_to_hex : function(point) {
+                var q = point.x * 2/3 / cell_radius;
+	        var r = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / cell_radius;
+                return round_cell(q, r, -q-r);
+            }, 
 
-            }
+            round_cell : round_cell, 
         }
     }
 

@@ -12,9 +12,13 @@
         <script type="text/javascript">
             var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
             var ctx = sketch.ctx;
-
+            var uibot = UIBot();
+            var params = {};
+            
             var Hex = Hex();
             var grid = Hex.Grid();
+            var center = {x: 0, y: 0};
+            var mouse_pos = {x: 0, y: 0};
             var canvas = Hex.Canvas(ctx);
 
             grid.cell_radius(40);
@@ -23,39 +27,39 @@
 
             // Called every frame
             function draw() {
-                var cx = sketch.canvas.width * 0.5;
-                var cy = sketch.canvas.height * 0.5;
+                center.x = sketch.canvas.width * 0.5;
+                center.y = sketch.canvas.height * 0.5;
                 ctx.fillStyle = 'red';
                 ctx.strokeStyle = 'black';
-                ctx.moveTo(cx, cy);
+                ctx.moveTo(center.x, center.y);
                 var cells = grid.cells();
                 for(var i = 0; i < cells.length; i++) {
-                    var p = grid.hex_to_pixel(cells[i]);
+                    var p = grid.hex_to_point(cells[i]);
                     canvas.draw_hexagon(
-                        {x: cx + p.x, y: cy + p.y}, 
+                        {x: center.x + p.x, y: center.y + p.y}, 
                         grid.cell_radius(), 
                         grid.orientation(), true, true);
                 }
-                
             }
 
-            // Setup
+            document.body.appendChild(sketch.canvas);
+            document.body.appendChild(uibot.build(window, params));
+            window.addEventListener('mousemove', function(event) {
+                var rect = sketch.canvas.getBoundingClientRect();
+                var x = event.clientX - rect.left;
+                var y = event.clientY - rect.top;
+                mouse_pos.x = x;
+                mouse_pos.y = y;
+                var offset = {x: x - center.x, y: y - center.y};
+                var cell = grid.point_to_hex(offset);
+                if(grid.contains(cell)) {
+                    console.log(cell.q(), cell.r(), cell.s());
+                }
+            });
+
             sketch.setRenderCallback(draw);
             sketch.setFullWindow(true);
             sketch.render();
-
-            var params = {
-                 
-            }
-
-            var uibot = UIBot();
-            document.body.appendChild(sketch.canvas);
-            document.body.appendChild(uibot.build(window, params));
-            
-            window.addEventListener('resize', function(event) {
-                x = window.innerWidth * 0.5;
-                y = window.innerHeight;
-            });
         </script>
     </body>
 </html>
