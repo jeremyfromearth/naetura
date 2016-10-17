@@ -20,21 +20,37 @@
             var center = {x: 0, y: 0};
             var mouse_pos = {x: 0, y: 0};
             var canvas = Hex.Canvas(ctx);
+            var hover = null;
+            var neighbors = [];
 
             grid.cell_radius(40);
-            grid.orientation(Hex.Orientation.SHARP);
+            //grid.orientation(Hex.Orientation.SHARP);
             grid.add(Hex.Layout.Hexagonal(4));
 
             // Called every frame
             function draw() {
                 center.x = sketch.canvas.width * 0.5;
                 center.y = sketch.canvas.height * 0.5;
-                ctx.fillStyle = 'red';
                 ctx.strokeStyle = 'black';
                 ctx.moveTo(center.x, center.y);
                 var cells = grid.cells();
                 for(var i = 0; i < cells.length; i++) {
-                    var p = grid.hex_to_point(cells[i]);
+                    var cell = cells[i];
+                    var cell_is_neighbor = false;
+                    for(var j = 0; j < neighbors.length; j++) {
+                        if(neighbors[j].equals(cell)) {
+                            cell_is_neighbor = true;
+                        }
+                    }
+                    var p = grid.hex_to_point(cell);
+                    if(hover && cell.equals(hover)) {
+                        ctx.fillStyle = 'yellow';
+                    } else if(cell_is_neighbor) {
+                        ctx.fillStyle = 'blue';
+                    } else {
+                        ctx.fillStyle = 'red';
+                    }
+
                     canvas.draw_hexagon(
                         {x: center.x + p.x, y: center.y + p.y}, 
                         grid.cell_radius(), 
@@ -53,7 +69,13 @@
                 var offset = {x: x - center.x, y: y - center.y};
                 var cell = grid.point_to_hex(offset);
                 if(grid.contains(cell)) {
-                    console.log(cell.q(), cell.r(), cell.s());
+                    console.log(cell.string());
+                    hover = cell;
+                    neighbors = grid.neighbors(cell);
+                    //console.log(neighbors);
+                } else {
+                    hover = null;
+                    neighbors = [];
                 }
             });
 

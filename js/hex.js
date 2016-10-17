@@ -79,6 +79,13 @@ function Hex() {
                     && s == cell.s();
             },
 
+	    minus : function(cell) {
+                return Cell(
+                    q - cell.q(),
+                    r - cell.r(),
+                    s - cell.s());
+            },
+
             q : function() { 
                 return q; 
             }, 
@@ -97,13 +104,11 @@ function Hex() {
                     r * scalar, 
                     s * scalar);
             },
-
-            minus : function(cell) {
-                return Cell(
-                    q - cell.q(),
-                    r - cell.r(),
-                    s - cell.s());
+		
+	    string : function() {
+                return 'Cell(' + q + ', ' + r + ', ' + s + ')';
             }
+            
         }
     }
 
@@ -113,6 +118,11 @@ function Hex() {
         var lookup = {};
         var cell_radius = 10;
         var orientation = Orientation.FLAT;
+
+        var neighbors = [
+            Cell(1, 0, -1), Cell(1, -1, 0), Cell(0, -1, 1),
+	    Cell(-1, 0, 1), Cell(-1, 1, 0), Cell(0, 1, -1) 
+        ];
 
         function round_cell(q, r, s) {
             var qr = Math.round(q);
@@ -137,7 +147,7 @@ function Hex() {
 
         return {
 
-            add : function(new_cells) {
+           add : function(new_cells) {
                 for(var i = 0; i < new_cells.length; i++) {
                     var cell = new_cells[i];
                     var q = cell.q();
@@ -165,6 +175,14 @@ function Hex() {
                     }
                 }
                 return false;
+            },
+
+            neighbors : function(cell) {
+                var cells = [];
+                for(var i = 0; i < neighbors.length; i++) {
+                    cells.push(cell.plus(neighbors[i]))
+                }
+                return cells;
             },
 
             orientation : function(value) {
@@ -206,8 +224,18 @@ function Hex() {
             }, 
 
             point_to_hex : function(point) {
-                var q = point.x * 2/3 / cell_radius;
-	        var r = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / cell_radius;
+                var q = 0;
+                var r = 0;
+                switch(orientation) {
+                    case Orientation.FLAT:
+                        q = point.x * 2/3 / cell_radius;
+                        r = (-point.x / 3 + Math.sqrt(3)/3 * point.y) / cell_radius;
+                        break;
+                    case Orientation.SHARP:
+                        q = (point.x * Math.sqrt(3)/3 - point.y / 3) / cell_radius;
+                        r = point.y * 2/3 / cell_radius;
+                        break;
+                }
                 return round_cell(q, r, -q-r);
             }, 
 
