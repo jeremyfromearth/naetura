@@ -133,7 +133,6 @@ function Hex() {
             var rd = Math.abs(r, rr);
             var sd = Math.abs(s, sr);
 
-
             if(qd > rd && qd > sd) {
                 qr = -rr - sr;
             } else if(rd > sd) {
@@ -175,6 +174,11 @@ function Hex() {
                     }
                 }
                 return false;
+            },
+
+            neighbor : function(cell, side) {
+                if(side < 0 || side > neighbors.length-1) return null;
+                return cell.plus(neighbors[side]);
             },
 
             neighbors : function(cell) {

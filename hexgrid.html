@@ -21,10 +21,10 @@
             var mouse_pos = {x: 0, y: 0};
             var canvas = Hex.Canvas(ctx);
             var hover = null;
-            var neighbors = [];
+            var neighbors = {};
 
             grid.cell_radius(40);
-            //grid.orientation(Hex.Orientation.SHARP);
+            grid.orientation(Hex.Orientation.SHARP);
             grid.add(Hex.Layout.Hexagonal(4));
 
             // Called every frame
@@ -34,23 +34,22 @@
                 ctx.strokeStyle = 'black';
                 ctx.moveTo(center.x, center.y);
                 var cells = grid.cells();
+                var special = false;
+
                 for(var i = 0; i < cells.length; i++) {
                     var cell = cells[i];
-                    var cell_is_neighbor = false;
-                    for(var j = 0; j < neighbors.length; j++) {
-                        if(neighbors[j].equals(cell)) {
-                            cell_is_neighbor = true;
-                        }
-                    }
-                    var p = grid.hex_to_point(cell);
                     if(hover && cell.equals(hover)) {
-                        ctx.fillStyle = 'yellow';
-                    } else if(cell_is_neighbor) {
-                        ctx.fillStyle = 'blue';
+                        ctx.fillStyle = '#ffcc00';
+                    } else if(neighbors[cell.q()] && neighbors[cell.q()][cell.r()]) {
+                        ctx.fillStyle = '#00cc00';
+                        if(hover && cell.equals(grid.neighbor(hover, 2))) {
+                            ctx.fillStyle = '#0099ff';
+                        }
                     } else {
-                        ctx.fillStyle = 'red';
+                        ctx.fillStyle = '#333333';
                     }
 
+                    var p = grid.hex_to_point(cell);
                     canvas.draw_hexagon(
                         {x: center.x + p.x, y: center.y + p.y}, 
                         grid.cell_radius(), 
@@ -69,10 +68,17 @@
                 var offset = {x: x - center.x, y: y - center.y};
                 var cell = grid.point_to_hex(offset);
                 if(grid.contains(cell)) {
-                    console.log(cell.string());
-                    hover = cell;
-                    neighbors = grid.neighbors(cell);
-                    //console.log(neighbors);
+                    if(!hover || !hover.equals(cell)) {
+                        hover = cell;
+                        neighbors = {}
+                        var cell_neighbors = grid.neighbors(cell);
+                        for(var i = 0; i < cell_neighbors.length; i++) {
+                            var n = cell_neighbors[i];
+                            if(!neighbors[n.q()]) neighbors[n.q()] = {};
+                            if(!neighbors[n.q()][n.r()]) neighbors[n.q()][n.r()] = {};
+                            neighbors[n.q()][n.r()] = n;
+                        }
+                    }
                 } else {
                     hover = null;
                     neighbors = [];
