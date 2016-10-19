@@ -43,6 +43,7 @@ function Hex() {
                         ctx.lineTo(x, y);
                     }
                 }
+
                 ctx.closePath();
                 if(solid) ctx.fill();
                 if(stroke) ctx.stroke();
@@ -157,6 +158,7 @@ function Hex() {
                     if(!lookup[q][r][s]) {
                         cells.push(cell);
                         lookup[q][r][s] = cell;
+                        console.log('Added: ' + q + ', ' + r + ', ' + s);
                     }
                 }
             },
@@ -166,11 +168,10 @@ function Hex() {
             },
 
             contains : function(cell) {
-                if(lookup[cell.q()]) {
-                    if(lookup[cell.r()]) {
-                        if(lookup[cell.s()]) {
-                            return true
-                        }
+                console.log('Looking for: ' + cell.string());
+                if(lookup[cell.q()] != null) {
+                    if(lookup[cell.q()][cell.r()] != null) {
+                        return true;
                     }
                 }
                 return false;
@@ -257,6 +258,16 @@ function Hex() {
 		    cells.push(Cell(q, r, -q-r));
 		}
 	    }
+            return cells;
+        },
+    
+        Triangular : function(size) {
+            var cells = [];
+	    for (var q = 0; q <= size; q++) {
+                for (var r = 0; r <= size - q; r++) {
+                    cells.push(Cell(q, r, -q-r));
+                }
+            }
             return cells;
         }
     }

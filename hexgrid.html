@@ -25,7 +25,8 @@
 
             grid.cell_radius(40);
             grid.orientation(Hex.Orientation.SHARP);
-            grid.add(Hex.Layout.Hexagonal(4));
+            //grid.add(Hex.Layout.Hexagonal(4));
+            grid.add(Hex.Layout.Triangular(10));
 
             // Called every frame
             function draw() {
@@ -33,6 +34,7 @@
                 center.y = sketch.canvas.height * 0.5;
                 ctx.strokeStyle = 'black';
                 ctx.moveTo(center.x, center.y);
+
                 var cells = grid.cells();
                 var special = false;
 
@@ -54,6 +56,11 @@
                         {x: center.x + p.x, y: center.y + p.y}, 
                         grid.cell_radius(), 
                         grid.orientation(), true, true);
+
+                    ctx.fillStyle = 'white';
+                    ctx.font = '16px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('[' + cell.q() + ', ' + cell.r() + ', ' + cell.s() + ']', center.x + p.x, center.y + p.y);
                 }
             }
 
@@ -67,6 +74,7 @@
                 mouse_pos.y = y;
                 var offset = {x: x - center.x, y: y - center.y};
                 var cell = grid.point_to_hex(offset);
+                console.log(cell.string(), grid.contains(cell));
                 if(grid.contains(cell)) {
                     if(!hover || !hover.equals(cell)) {
                         hover = cell;
