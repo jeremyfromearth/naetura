@@ -25,8 +25,8 @@
 
             grid.cell_radius(40);
             grid.orientation(Hex.Orientation.SHARP);
-            grid.add(Hex.Layout.Hexagonal(4));
-            grid.add(Hex.Layout.Triangular(10));
+            grid.add(Hex.Layout.Hexagonal.create(4));
+            grid.add(Hex.Layout.Triangular.create(10));
 
             // Called every frame
             function draw() {

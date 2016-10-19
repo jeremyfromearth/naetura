@@ -247,30 +247,34 @@ function Hex() {
     }
 
     var Layout = {
-        Hexagonal : function(radius) {
-            var cells = [];	
-	    for (var q = -radius; q <= radius; q++) {
-		var r1 = Math.max(-radius, -q - radius);
-		var r2 = Math.min(radius, -q + radius);
-		for (var r = r1; r <= r2; r++) {
-		    cells.push(Cell(q, r, -q-r));
-		}
-	    }
-            return cells;
+        Hexagonal : {
+            create : function(radius) {
+                var cells = [];	
+                for (var q = -radius; q <= radius; q++) {
+                    var r1 = Math.max(-radius, -q - radius);
+                    var r2 = Math.min(radius, -q + radius);
+                    for (var r = r1; r <= r2; r++) {
+                        cells.push(Cell(q, r, -q-r));
+                    }
+                }
+                return cells;
+            }
         },
     
-        Triangular : function(size) {
-            var cells = [];
-            var h = Math.round(size / 2);
-            var hh = Math.floor(h / 2);
-            if((hh % 2) != 0) hh++;
-            console.log(h, hh);
-	    for (var q = 0; q <= size; q++) {
-                for (var r = 0; r <= size - q; r++) {
-                    cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
+        Triangular : {
+            create: function (size) {
+                var cells = [];
+                var h = Math.round(size / 2);
+                var hh = Math.floor(h / 2);
+                if((hh % 2) != 0) hh++;
+                console.log(h, hh);
+                for (var q = 0; q <= size; q++) {
+                    for (var r = 0; r <= size - q; r++) {
+                        cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
+                    }
                 }
+                return cells;
             }
-            return cells;
         }
     }
 
