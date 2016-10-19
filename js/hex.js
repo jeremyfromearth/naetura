@@ -261,9 +261,13 @@ function Hex() {
     
         Triangular : function(size) {
             var cells = [];
+            var h = Math.round(size / 2);
+            var hh = Math.floor(h / 2);
+            if((hh % 2) != 0) hh++;
+            console.log(h, hh);
 	    for (var q = 0; q <= size; q++) {
                 for (var r = 0; r <= size - q; r++) {
-                    cells.push(Cell(q, r, -q-r));
+                    cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
                 }
             }
             return cells;
