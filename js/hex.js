@@ -158,7 +158,6 @@ function Hex() {
                     if(!lookup[q][r][s]) {
                         cells.push(cell);
                         lookup[q][r][s] = cell;
-                        console.log('Added: ' + q + ', ' + r + ', ' + s);
                     }
                 }
             },
@@ -168,7 +167,6 @@ function Hex() {
             },
 
             contains : function(cell) {
-                console.log('Looking for: ' + cell.string());
                 if(lookup[cell.q()] != null) {
                     if(lookup[cell.q()][cell.r()] != null) {
                         return true;
