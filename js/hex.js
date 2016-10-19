@@ -264,15 +264,29 @@ function Hex() {
         Triangular : {
             create: function (size) {
                 var cells = [];
-                var h = Math.round(size / 2);
+                var h = Math.floor(size / 2);
                 var hh = Math.floor(h / 2);
                 if((hh % 2) != 0) hh++;
-                console.log(h, hh);
                 for (var q = 0; q <= size; q++) {
                     for (var r = 0; r <= size - q; r++) {
                         cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
                     }
                 }
+                return cells;
+            }
+        },
+
+        Parallelogram : {
+            create : function(w, h) {
+                var cells = [];
+                var w = Math.floor(w * 0.5);
+                var h = Math.floor(h * 0.5);
+
+		for (var q = -w; q <= w; q++) {
+		    for (var r = -h; r <= h; r++) {
+			cells.push(Cell(q, r, -q-r));
+		    }
+		}
                 return cells;
             }
         }
