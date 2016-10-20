@@ -1,5 +1,4 @@
 function Hex() {
-    
     function Canvas(ctx) {
         var ctx = ctx;
         var theta = 0;
@@ -114,7 +113,6 @@ function Hex() {
     }
 
     function Grid() {
-
         var cells = [];
         var lookup = {};
         var cell_radius = 10;
@@ -124,6 +122,21 @@ function Hex() {
             Cell(1, 0, -1), Cell(1, -1, 0), Cell(0, -1, 1),
 	    Cell(-1, 0, 1), Cell(-1, 1, 0), Cell(0, 1, -1) 
         ];
+
+        function add(new_cells) {
+            for(var i = 0; i < new_cells.length; i++) {
+                var cell = new_cells[i];
+                var q = cell.q();
+                var r = cell.r();
+                var s = cell.s();
+                if(!lookup[q]) lookup[q] = {};
+                if(!lookup[q][r]) lookup[q][r] = {};
+                if(!lookup[q][r][s]) {
+                    cells.push(cell);
+                    lookup[q][r][s] = cell;
+                }
+            }
+        }
 
         function round_cell(q, r, s) {
             var qr = Math.round(q);
@@ -147,20 +160,7 @@ function Hex() {
 
         return {
 
-           add : function(new_cells) {
-                for(var i = 0; i < new_cells.length; i++) {
-                    var cell = new_cells[i];
-                    var q = cell.q();
-                    var r = cell.r();
-                    var s = cell.s();
-                    if(!lookup[q]) lookup[q] = {};
-                    if(!lookup[q][r]) lookup[q][r] = {};
-                    if(!lookup[q][r][s]) {
-                        cells.push(cell);
-                        lookup[q][r][s] = cell;
-                    }
-                }
-            },
+            add : add,   
 
             cells : function() {
                 return cells;
@@ -243,10 +243,27 @@ function Hex() {
             }, 
 
             round_cell : round_cell, 
+
+            translate : function(by) {
+                var new_cells = [];
+                for(var i = 0; i < cells.length; i++) {
+                    new_cells.push(cells[i].plus(by));
+                }
+
+                cells = [];
+                lookup = {};
+                add(new_cells);
+            }
         }
     }
 
     var Layout = {
+        Options : {
+            Standard : 'standard',
+            Flipped : 'flipped',
+            Vertical : 'vertical'
+        },
+
         Hexagonal : {
             create : function(radius) {
                 var cells = [];	
@@ -264,9 +281,9 @@ function Hex() {
         Triangular : {
             create: function (size) {
                 var cells = [];
-                var h = Math.floor(size / 2);
-                var hh = Math.floor(h / 2);
-                if((hh % 2) != 0) hh++;
+                var h = Math.floor(size * 0.5);
+                var hh = Math.floor(h * 0.5);
+                if((hh % 2) != 0) hh--;
                 for (var q = 0; q <= size; q++) {
                     for (var r = 0; r <= size - q; r++) {
                         cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
@@ -277,16 +294,21 @@ function Hex() {
         },
 
         Parallelogram : {
-            create : function(w, h) {
+            create : function(width, height, direction) {
+                var w = width * 0.5;
+                var h = height * 0.5;
                 var cells = [];
-                var w = Math.floor(w * 0.5);
-                var h = Math.floor(h * 0.5);
-
-		for (var q = -w; q <= w; q++) {
-		    for (var r = -h; r <= h; r++) {
-			cells.push(Cell(q, r, -q-r));
-		    }
-		}
+                var direction = direction || Layout.Options.Standard;
+                for (var q = -w; q <= w; q++) {
+                    for (var r = -h; r <= h; r++) {
+                        if(direction == Layout.Options.Standard)
+                            cells.push(Cell(q, r, -q-r));
+                        if(direction == Layout.Options.Flipped)
+                            cells.push(Cell(-q-r, q, r));
+                        if(direction == Layout.Options.Vertical)
+                            cells.push(Cell(q, -q-r, r));
+                    }
+                }
                 return cells;
             }
         }
@@ -298,6 +320,8 @@ function Hex() {
     }
 
     return {
+        SVG : null, 
+        D3 : null,
         Canvas : Canvas,
         Cell : Cell,
         Grid : Grid, 

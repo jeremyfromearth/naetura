@@ -24,10 +24,11 @@
             var neighbors = {};
 
             grid.cell_radius(32);
-            grid.orientation(Hex.Orientation.SHARP);
-            //grid.add(Hex.Layout.Hexagonal.create(4));
-            //grid.add(Hex.Layout.Triangular.create(8));
-            grid.add(Hex.Layout.Parallelogram.create(5, 5));
+            grid.orientation(Hex.Orientation.FLAT);
+            grid.add(Hex.Layout.Hexagonal.create(8));
+            grid.add(Hex.Layout.Triangular.create(16));
+            grid.translate(Hex.Cell(-5, 5, 0));
+            grid.add(Hex.Layout.Parallelogram.create(6, 6, Hex.Layout.Options.Standard));
 
             // Called every frame
             function draw() {
