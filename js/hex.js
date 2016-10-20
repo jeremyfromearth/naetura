@@ -244,10 +244,10 @@ function Hex() {
 
             round_cell : round_cell, 
 
-            translate : function(by) {
+            translate : function(offset) {
                 var new_cells = [];
                 for(var i = 0; i < cells.length; i++) {
-                    new_cells.push(cells[i].plus(by));
+                    new_cells.push(cells[i].plus(offset));
                 }
 
                 cells = [];
@@ -264,6 +264,19 @@ function Hex() {
             Vertical : 'vertical'
         },
 
+        Grid : {
+            create : function(x, y) {
+		var cells = [];
+		for (var r = 0; r < y; r++) {
+		    var r_offset = Math.floor(r/2); // or r>>1
+		    for (var q = -r_offset; q < x - r_offset; q++) {
+			cells.push(Cell(q, r, -q-r));
+		    }
+		}
+                return cells;	
+            }
+        },
+
         Hexagonal : {
             create : function(radius) {
                 var cells = [];	
@@ -272,6 +285,26 @@ function Hex() {
                     var r2 = Math.min(radius, -q + radius);
                     for (var r = r1; r <= r2; r++) {
                         cells.push(Cell(q, r, -q-r));
+                    }
+                }
+                return cells;
+            }
+        },
+
+	Parallelogram : {
+            create : function(width, height, direction) {
+                var w = width * 0.5;
+                var h = height * 0.5;
+                var cells = [];
+                var direction = direction || Layout.Options.Standard;
+                for (var q = -w; q <= w; q++) {
+                    for (var r = -h; r <= h; r++) {
+                        if(direction == Layout.Options.Standard)
+                            cells.push(Cell(q, r, -q-r));
+                        if(direction == Layout.Options.Flipped)
+                            cells.push(Cell(-q-r, q, r));
+                        if(direction == Layout.Options.Vertical)
+                            cells.push(Cell(q, -q-r, r));
                     }
                 }
                 return cells;
@@ -287,26 +320,6 @@ function Hex() {
                 for (var q = 0; q <= size; q++) {
                     for (var r = 0; r <= size - q; r++) {
                         cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
-                    }
-                }
-                return cells;
-            }
-        },
-
-        Parallelogram : {
-            create : function(width, height, direction) {
-                var w = width * 0.5;
-                var h = height * 0.5;
-                var cells = [];
-                var direction = direction || Layout.Options.Standard;
-                for (var q = -w; q <= w; q++) {
-                    for (var r = -h; r <= h; r++) {
-                        if(direction == Layout.Options.Standard)
-                            cells.push(Cell(q, r, -q-r));
-                        if(direction == Layout.Options.Flipped)
-                            cells.push(Cell(-q-r, q, r));
-                        if(direction == Layout.Options.Vertical)
-                            cells.push(Cell(q, -q-r, r));
                     }
                 }
                 return cells;

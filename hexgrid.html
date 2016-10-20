@@ -10,25 +10,26 @@
         <script src='./js/vector.js'></script>
         <script src='./js/hex.js'></script>
         <script type="text/javascript">
-            var sketch = CanvasSketch(window.innerWidth, window.innerHeight);
+            var sketch = CanvasSketch(
+                window.innerWidth, window.innerHeight);
             var ctx = sketch.ctx;
-            var uibot = UIBot();
-            var params = {};
-            
             var Hex = Hex();
+            var uibot = UIBot();
             var grid = Hex.Grid();
             var center = {x: 0, y: 0};
             var mouse_pos = {x: 0, y: 0};
             var canvas = Hex.Canvas(ctx);
             var hover = null;
             var neighbors = {};
+            var params = {};
 
             grid.cell_radius(32);
-            grid.orientation(Hex.Orientation.FLAT);
-            grid.add(Hex.Layout.Hexagonal.create(8));
-            grid.add(Hex.Layout.Triangular.create(16));
-            grid.translate(Hex.Cell(-5, 5, 0));
-            grid.add(Hex.Layout.Parallelogram.create(6, 6, Hex.Layout.Options.Standard));
+            grid.orientation(Hex.Orientation.SHARP);
+            //grid.add(Hex.Layout.Hexagonal.create(8));
+            //grid.add(Hex.Layout.Triangular.create(16));
+            //grid.add(Hex.Layout.Parallelogram.create(
+            //            6, 6, Hex.Layout.Options.Standard));
+	    grid.add(Hex.Layout.Grid.create(20, 10));
 
             // Called every frame
             function draw() {
