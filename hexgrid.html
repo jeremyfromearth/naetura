@@ -25,11 +25,12 @@
 
             grid.cell_radius(32);
             grid.orientation(Hex.Orientation.SHARP);
-            //grid.add(Hex.Layout.Hexagonal.create(8));
-            //grid.add(Hex.Layout.Triangular.create(16));
-            //grid.add(Hex.Layout.Parallelogram.create(
-            //            6, 6, Hex.Layout.Options.Standard));
-	    grid.add(Hex.Layout.Grid.create(20, 10));
+	    grid.add(Hex.Layout.Grid.create(20, 10), 0.3);
+            grid.translate(Hex.Cell(-10, 0, 10));
+            grid.add(Hex.Layout.Hexagonal.create(8), .7);
+            grid.add(Hex.Layout.Triangular.create(16), .9);
+            grid.add(Hex.Layout.Parallelogram.create(
+                        6, 6, Hex.Layout.Options.Standard), .2);
 
             // Called every frame
             function draw() {

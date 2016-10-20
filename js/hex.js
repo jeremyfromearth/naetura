@@ -123,7 +123,8 @@ function Hex() {
 	    Cell(-1, 0, 1), Cell(-1, 1, 0), Cell(0, 1, -1) 
         ];
 
-        function add(new_cells) {
+        function add(new_cells, probability) {
+            var probability = probability || 1;
             for(var i = 0; i < new_cells.length; i++) {
                 var cell = new_cells[i];
                 var q = cell.q();
@@ -132,8 +133,11 @@ function Hex() {
                 if(!lookup[q]) lookup[q] = {};
                 if(!lookup[q][r]) lookup[q][r] = {};
                 if(!lookup[q][r][s]) {
-                    cells.push(cell);
-                    lookup[q][r][s] = cell;
+                    var n = Math.random();
+                    if(n < probability) {
+                        cells.push(cell);
+                        lookup[q][r][s] = cell;
+                    }
                 }
             }
         }
@@ -265,7 +269,7 @@ function Hex() {
         },
 
         Grid : {
-            create : function(x, y) {
+            create : function(x, y, p) {
 		var cells = [];
 		for (var r = 0; r < y; r++) {
 		    var r_offset = Math.floor(r/2); // or r>>1
