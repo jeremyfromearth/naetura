@@ -336,6 +336,32 @@ function Hex() {
         FLAT  : 'flat'
     }
 
+    var Partition = {
+        Trapezoid : function(grid) {
+            var sides = 6;
+            var trapezoids = [];
+            var inc = Math.PI / 6;
+            var cells = grid.cells();
+            var radius = grid.cell_radius();
+            var theta = 
+                grid.orientation() == Orientation.SHARP ? 
+                    Math.PI / 3.0 : 0;
+
+            for(var i = 0; i < cells.length; i++) {
+                var x0 = 0;
+                var y0 = 0;
+                var x1 = 0; 
+                var y1 = 0;
+                var x2 = 0;
+                var y2 = 0;
+                var x3 = 0;
+                var y3 = 0;
+
+                theta += inc;
+            }
+        }
+    }
+
     return {
         SVG : null, 
         D3 : null,
