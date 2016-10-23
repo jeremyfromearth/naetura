@@ -316,14 +316,19 @@ function Hex() {
         },
     
         Triangular : {
-            create: function (size) {
+            create: function (size, direction) {
                 var cells = [];
                 var h = Math.floor(size * 0.5);
                 var hh = Math.floor(h * 0.5);
+                var direction = direction || Layout.Options.Standard;
+                console.log('direction', direction);
                 if((hh % 2) != 0) hh--;
                 for (var q = 0; q <= size; q++) {
                     for (var r = 0; r <= size - q; r++) {
-                        cells.push(Cell(q-h+hh, r-hh*2, -q-r+h+hh));
+                        if(direction == Layout.Options.Standard)
+                            cells.push(Cell(q, r, -q-r));
+                        if(direction == Layout.Options.Flipped)
+                            cells.push(Cell(q, -q-r, r));
                     }
                 }
                 return cells;
@@ -346,7 +351,6 @@ function Hex() {
             var theta = 
                 grid.orientation() == Orientation.SHARP ? 
                     Math.PI / 3.0 : 0;
-
             for(var i = 0; i < cells.length; i++) {
                 var x0 = 0;
                 var y0 = 0;

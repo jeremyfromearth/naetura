@@ -24,14 +24,11 @@
 
             grid.cell_radius(32);
             grid.orientation(Hex.Orientation.SHARP);
-	    grid.add(Hex.Layout.Grid.create(20, 10), 0.3);
-            grid.translate(Hex.Cell(-10, 0, 10));
+	    grid.add(Hex.Layout.Grid.create(20, 10), 1.0);
             grid.add(Hex.Layout.Hexagonal.create(8), 0.6);
-            grid.add(Hex.Layout.Triangular.create(16), .9);
-            /*
+            grid.add(Hex.Layout.Triangular.create(16, Hex.Layout.Options.Standard), 1);
             grid.add(Hex.Layout.Parallelogram.create(
                         6, 6, Hex.Layout.Options.Standard), .2);
-            */
 
             // Called every frame
             function draw() {
@@ -62,9 +59,8 @@
                         grid.cell_radius(), 
                         grid.orientation(), true, true);
 
-                    /*
                     ctx.fillStyle = '#999';
-                    ctx.font = '10px Arial';
+                    ctx.font = '12px Arial';
                     ctx.textAlign = 'center';
                     ctx.fillText(
                         '[' + cell.q() + ', ' + 
@@ -72,8 +68,6 @@
                         cell.s() + ']', 
                         center.x + p.x, 
                         center.y + p.y);
-
-                    */
                 }
             }
 
