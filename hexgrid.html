@@ -23,12 +23,14 @@
             var params = {};
 
             grid.cell_radius(32);
-            grid.orientation(Hex.Orientation.SHARP);
+            grid.orientation(Hex.Orientation.FLAT);
 	    grid.add(Hex.Layout.Grid.create(20, 10), 1.0);
             grid.add(Hex.Layout.Hexagonal.create(8), 0.6);
-            grid.add(Hex.Layout.Triangular.create(16, Hex.Layout.Options.Standard), 1);
+            grid.add(Hex.Layout.Triangular.create(
+                16, Hex.Layout.Options.Standard), 1);
             grid.add(Hex.Layout.Parallelogram.create(
-                        6, 6, Hex.Layout.Options.Standard), .2);
+                6, 6, Hex.Layout.Options.Standard), .2);
+
 
             // Called every frame
             function draw() {

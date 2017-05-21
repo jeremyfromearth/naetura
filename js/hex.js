@@ -147,9 +147,9 @@ function Hex() {
             var rr = Math.round(r);
             var sr = Math.round(s);
 
-            var qd = Math.abs(q, qr);
-            var rd = Math.abs(r, rr);
-            var sd = Math.abs(s, sr);
+            var qd = Math.abs(q - qr);
+            var rd = Math.abs(r - rr);
+            var sd = Math.abs(s - sr);
 
             if(qd > rd && qd > sd) {
                 qr = -rr - sr;
@@ -321,7 +321,6 @@ function Hex() {
                 var h = Math.floor(size * 0.5);
                 var hh = Math.floor(h * 0.5);
                 var direction = direction || Layout.Options.Standard;
-                console.log('direction', direction);
                 if((hh % 2) != 0) hh--;
                 for (var q = 0; q <= size; q++) {
                     for (var r = 0; r <= size - q; r++) {
