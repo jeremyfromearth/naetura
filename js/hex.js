@@ -159,6 +159,7 @@ function Hex() {
                 sr = -qr - rr;
             }
 
+            console.log(q, r, s, " > ", qr, rr, sr);
             return Cell(qr, rr, sr);
         }
 

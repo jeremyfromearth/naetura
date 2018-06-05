@@ -22,15 +22,17 @@
             var neighbors = {};
             var params = {};
 
-            grid.cell_radius(32);
-            grid.orientation(Hex.Orientation.FLAT);
-	    grid.add(Hex.Layout.Grid.create(20, 10), 1.0);
-            grid.add(Hex.Layout.Hexagonal.create(8), 0.6);
+            grid.cell_radius(16);
+            grid.orientation(Hex.Orientation.SHARP);
+	    //grid.add(Hex.Layout.Grid.create(20, 10), 1.0);
+            grid.add(Hex.Layout.Hexagonal.create(8), 1.0);
+
+            /*
             grid.add(Hex.Layout.Triangular.create(
                 16, Hex.Layout.Options.Standard), 1);
             grid.add(Hex.Layout.Parallelogram.create(
                 6, 6, Hex.Layout.Options.Standard), .2);
-
+            */
 
             // Called every frame
             function draw() {
@@ -61,8 +63,9 @@
                         grid.cell_radius(), 
                         grid.orientation(), true, true);
 
+                    
                     ctx.fillStyle = '#999';
-                    ctx.font = '12px Arial';
+                    ctx.font = '8px Arial';
                     ctx.textAlign = 'center';
                     ctx.fillText(
                         '[' + cell.q() + ', ' + 
@@ -83,6 +86,9 @@
                 mouse_pos.y = y;
                 var offset = {x: x - center.x, y: y - center.y};
                 var cell = grid.point_to_hex(offset);
+
+                console.log('m.x: ', offset.x, ' my.y: ', offset.y, ' c.x: ', cell.q(), ' c.y: ', cell.r(), ' c.z: ', cell.s());
+
                 if(grid.contains(cell)) {
                     if(!hover || !hover.equals(cell)) {
                         hover = cell;
